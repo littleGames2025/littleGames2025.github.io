@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>四季数独 | 创意主题游戏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>四季数独 | 移动优化版</title>
     <style>
         :root {
             --spring: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
@@ -19,6 +19,8 @@
             padding: 0;
             box-sizing: border-box;
             user-select: none;
+            -webkit-tap-highlight-color: transparent; /* 去除移动端点击高亮 */
+            -webkit-touch-callout: none; /* 禁止移动端长按菜单 */
         }
 
         body {
@@ -31,9 +33,10 @@
             transition: background 1.5s ease;
             background: var(--spring);
             color: var(--text-dark);
+            padding: 10px; /* 添加内边距防止内容溢出 */
         }
 
-        /* 粒子效果容器 */
+        /* 粒子效果容器 - 移动端减少数量 */
         .particles {
             position: fixed;
             top: 0;
@@ -49,7 +52,7 @@
             opacity: 0.7;
         }
 
-        /* 主游戏容器 */
+        /* 主游戏容器 - 移动端优化 */
         .game-container {
             width: 95%;
             max-width: 800px;
@@ -57,18 +60,18 @@
             backdrop-filter: blur(12px);
             border-radius: 24px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            padding: 30px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 15px;
             transform: translateY(0);
             transition: transform 0.5s ease;
         }
 
         .season-title {
             text-align: center;
-            font-size: 3rem;
-            margin-bottom: 10px;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
@@ -81,23 +84,24 @@
         .autumn { background-image: linear-gradient(to right, #ff9800, #ffcc80); }
         .winter { background-image: linear-gradient(to right, #03a9f4, #81d4fa); }
 
-        /* 游戏控制区域 */
+        /* 游戏控制区域 - 移动端优化 */
         .controls {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column; /* 竖屏改为垂直布局 */
             align-items: center;
-            flex-wrap: wrap;
             gap: 15px;
         }
 
         .season-selector {
             display: flex;
-            gap: 12px;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
         }
 
         .season-btn {
-            width: 50px;
-            height: 50px;
+            width: 44px; /* 满足最小触摸尺寸 */
+            height: 44px;
             border-radius: 50%;
             border: 3px solid white;
             cursor: pointer;
@@ -118,11 +122,14 @@
 
         .game-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .game-btn {
-            padding: 10px 20px;
+            padding: 12px 18px; /* 增大触摸区域 */
             border: none;
             border-radius: 50px;
             background: rgba(255,255,255,0.9);
@@ -131,6 +138,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 0.95rem;
+            min-width: 90px; /* 确保按钮有足够宽度 */
         }
 
         .game-btn:hover {
@@ -147,31 +156,34 @@
             display: flex;
             justify-content: space-around;
             background: rgba(255,255,255,0.7);
-            padding: 15px;
+            padding: 12px;
             border-radius: 15px;
+            font-size: 0.9rem;
         }
 
         .stat-box {
             text-align: center;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
 
         .stat-value {
             font-weight: bold;
-            font-size: 1.4rem;
-            margin-top: 5px;
+            font-size: 1.3rem;
+            margin-top: 3px;
         }
 
-        /* 数独棋盘 */
+        /* 数独棋盘 - 移动端优化 */
         .sudoku-board {
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(9, 1fr);
-            gap: 2px;
+            gap: 1px; /* 减小间隙 */
             background-color: var(--text-dark);
-            border: 3px solid var(--text-dark);
-            border-radius: 8px;
+            border: 2px solid var(--text-dark); /* 减薄边框 */
+            border-radius: 6px;
             overflow: hidden;
+            width: 100%; /* 确保棋盘宽度自适应 */
+            max-width: 95vw; /* 防止在窄屏幕上溢出 */
         }
 
         .cell {
@@ -180,7 +192,7 @@
             align-items: center;
             justify-content: center;
             background-color: white;
-            font-size: 1.8rem;
+            font-size: 1.5rem; /* 减小字体大小 */
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -219,19 +231,19 @@
         }
 
         .border-right {
-            border-right: 3px solid var(--text-dark) !important;
+            border-right: 2px solid var(--text-dark) !important; /* 减薄边框 */
         }
 
         .border-bottom {
-            border-bottom: 3px solid var(--text-dark) !important;
+            border-bottom: 2px solid var(--text-dark) !important;
         }
 
-        /* 数字选择面板 */
+        /* 数字选择面板 - 移动端优化 */
         .number-pad {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            margin-top: 15px;
+            gap: 6px; /* 减小间隙 */
+            margin-top: 12px;
         }
 
         .num-btn {
@@ -240,12 +252,13 @@
             align-items: center;
             justify-content: center;
             background: rgba(255,255,255,0.9);
-            border-radius: 12px;
-            font-size: 1.8rem;
+            border-radius: 10px;
+            font-size: 1.6rem; /* 减小字体大小 */
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-height: 44px; /* 满足最小触摸尺寸 */
         }
 
         .num-btn:hover {
@@ -274,20 +287,20 @@
         .achievements {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 10px;
+            gap: 12px;
+            margin-top: 8px;
         }
 
         .badge {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: #34495e;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.3;
             transition: all 0.5s ease;
         }
@@ -298,13 +311,97 @@
             box-shadow: 0 0 10px gold;
         }
 
-        /* 响应式设计 */
+        /* 响应式设计 - 增强移动端适配 */
         @media (max-width: 768px) {
-            .cell { font-size: 1.4rem; }
             .season-title { font-size: 2.2rem; }
-            .game-container { padding: 20px; }
-            .stat-box { font-size: 0.9rem; }
-            .stat-value { font-size: 1.2rem; }
+            .game-container { padding: 15px; gap: 12px; }
+            .stat-box { font-size: 0.85rem; }
+            .stat-value { font-size: 1.1rem; }
+            .cell { font-size: 1.3rem; }
+            .num-btn { font-size: 1.4rem; min-height: 40px; }
+            .game-btn { padding: 10px 15px; font-size: 0.9rem; min-width: 80px; }
+        }
+
+        @media (max-width: 480px) {
+            .season-title { font-size: 1.8rem; }
+            .game-container { padding: 12px; border-radius: 18px; }
+            .stats { padding: 8px; font-size: 0.8rem; }
+            .stat-value { font-size: 1rem; }
+            .cell { font-size: 1.1rem; }
+            .num-btn { font-size: 1.2rem; min-height: 36px; }
+            .game-btn { padding: 8px 12px; font-size: 0.85rem; min-width: 70px; }
+            .season-btn { width: 40px; height: 40px; }
+            .badge { width: 32px; height: 32px; font-size: 0.9rem; }
+            
+            /* 竖屏时调整控制区域布局 */
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .season-selector {
+                order: 2; /* 将季节选择器放到按钮下方 */
+            }
+            
+            .game-actions {
+                order: 1;
+            }
+            
+            /* 减少粒子数量 */
+            .particle {
+                font-size: 14px !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .season-title { font-size: 1.6rem; }
+            .cell { font-size: 1rem; }
+            .num-btn { font-size: 1.1rem; }
+            .game-btn { min-width: 65px; padding: 7px 10px; }
+            .season-btn { width: 36px; height: 36px; }
+        }
+        
+        /* 横屏优化 */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .game-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+                max-width: 95vw;
+                padding: 10px;
+            }
+            
+            .season-title {
+                width: 100%;
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: row;
+                width: 40%;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .season-selector {
+                flex-direction: column;
+            }
+            
+            .sudoku-board {
+                width: 50%;
+                max-height: 70vh;
+            }
+            
+            .number-pad {
+                grid-template-columns: repeat(3, 1fr);
+                width: 50%;
+                margin-top: 0;
+            }
+            
+            .achievements {
+                width: 100%;
+                order: 4;
+                margin-top: 5px;
+            }
         }
     </style>
 </head>
@@ -316,17 +413,17 @@
         <h1 class="season-title spring" id="seasonTitle">春日数独</h1>
         
         <div class="controls">
+            <div class="game-actions">
+                <button class="game-btn btn-new" id="newGame">新游戏</button>
+                <button class="game-btn btn-check" id="checkGame">检查</button>
+                <button class="game-btn btn-hint" id="getHint">提示</button>
+            </div>
+            
             <div class="season-selector">
                 <div class="season-btn season-spring active" data-season="spring" title="春"></div>
                 <div class="season-btn season-summer" data-season="summer" title="夏"></div>
                 <div class="season-btn season-autumn" data-season="autumn" title="秋"></div>
                 <div class="season-btn season-winter" data-season="winter" title="冬"></div>
-            </div>
-            
-            <div class="game-actions">
-                <button class="game-btn btn-new" id="newGame">新游戏</button>
-                <button class="game-btn btn-check" id="checkGame">检查</button>
-                <button class="game-btn btn-hint" id="getHint">提示</button>
             </div>
         </div>
         
@@ -401,25 +498,25 @@
                 title: '春日数独',
                 class: 'spring',
                 bg: 'var(--spring)',
-                particles: { shape: '🌸', color: '#ff9a9e', amount: 15 }
+                particles: { shape: '🌸', color: '#ff9a9e', amount: 8 } // 减少粒子数量
             },
             summer: {
                 title: '夏日数独',
                 class: 'summer',
                 bg: 'var(--summer)',
-                particles: { shape: '💧', color: '#43e97b', amount: 20 }
+                particles: { shape: '💧', color: '#43e97b', amount: 10 }
             },
             autumn: {
                 title: '秋日数独',
                 class: 'autumn',
                 bg: 'var(--autumn)',
-                particles: { shape: '🍂', color: '#fa709a', amount: 15 }
+                particles: { shape: '🍂', color: '#fa709a', amount: 8 }
             },
             winter: {
                 title: '冬日数独',
                 class: 'winter',
                 bg: 'var(--winter)',
-                particles: { shape: '❄️', color: '#a1c4fd', amount: 20 }
+                particles: { shape: '❄️', color: '#a1c4fd', amount: 10 }
             }
         };
 
@@ -503,6 +600,12 @@
                     // 事件监听
                     cell.addEventListener('click', () => selectCell(row, col));
                     
+                    // 添加触摸事件支持
+                    cell.addEventListener('touchstart', (e) => {
+                        e.preventDefault(); // 防止触摸时页面滚动
+                        selectCell(row, col);
+                    });
+                    
                     elements.sudokuBoard.appendChild(cell);
                 }
             }
@@ -519,6 +622,13 @@
                 numBtn.textContent = i;
                 numBtn.dataset.value = i;
                 numBtn.addEventListener('click', () => fillCell(i));
+                
+                // 添加触摸事件支持
+                numBtn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    fillCell(i);
+                });
+                
                 elements.numberPad.appendChild(numBtn);
             }
             
@@ -528,6 +638,13 @@
             deleteBtn.textContent = '⌫';
             deleteBtn.style.fontSize = '1.4rem';
             deleteBtn.addEventListener('click', () => fillCell(0));
+            
+            // 添加触摸事件支持
+            deleteBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                fillCell(0);
+            });
+            
             elements.numberPad.appendChild(deleteBtn);
         }
 
@@ -720,16 +837,23 @@
             createParticles(config.particles);
         }
 
-        // 创建粒子特效
+        // 创建粒子特效 - 移动端优化
         function createParticles(particleConfig) {
             elements.particles.innerHTML = '';
             
-            for (let i = 0; i < particleConfig.amount; i++) {
+            // 根据屏幕尺寸调整粒子数量
+            const isMobile = window.innerWidth <= 768;
+            const amount = isMobile ? Math.floor(particleConfig.amount * 0.6) : particleConfig.amount;
+            
+            for (let i = 0; i < amount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.textContent = particleConfig.shape;
                 particle.style.color = particleConfig.color;
-                particle.style.fontSize = `${Math.random() * 16 + 16}px`;
+                
+                // 根据设备调整粒子大小
+                const baseSize = isMobile ? 12 : 16;
+                particle.style.fontSize = `${Math.random() * baseSize + baseSize}px`;
                 particle.style.left = `${Math.random() * 100}%`;
                 
                 // 随机动画延迟和持续时间
@@ -791,6 +915,11 @@
 
         // 事件监听绑定
         window.addEventListener('load', initGame);
+        window.addEventListener('resize', () => {
+            // 在窗口大小变化时重新生成粒子，以适应新尺寸
+            changeSeason(gameState.currentSeason);
+        });
+        
         elements.newGameBtn.addEventListener('click', () => {
             if (confirm('确定开始新游戏吗？当前进度将丢失。')) {
                 initGame();
