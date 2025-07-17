@@ -2,26 +2,29 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>多彩扫雷游戏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>移动版多彩扫雷</title>
     <style>
         :root {
             --primary-bg: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             --cell-size: 35px;
-            --number-1: #1976D2; /* 蓝色 */
-            --number-2: #388E3C; /* 绿色 */
-            --number-3: #D32F2F; /* 红色 */
-            --number-4: #7B1FA2; /* 紫色 */
-            --number-5: #FF8F00; /* 橙色 */
-            --number-6: #0097A7; /* 青色 */
-            --number-7: #000000; /* 黑色 */
-            --number-8: #757575; /* 灰色 */
+            --number-1: #1976D2;
+            --number-2: #388E3C;
+            --number-3: #D32F2F;
+            --number-4: #7B1FA2;
+            --number-5: #FF8F00;
+            --number-6: #0097A7;
+            --number-7: #000000;
+            --number-8: #757575;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            user-select: none;
         }
 
         body {
@@ -31,7 +34,12 @@
             align-items: center;
             background: var(--primary-bg);
             font-family: 'Segoe UI', Tahoma, sans-serif;
-            padding: 20px;
+            padding: 15px;
+            /* 适配手机安全区域 */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
         }
 
         .game-container {
@@ -39,33 +47,34 @@
             backdrop-filter: blur(10px);
             border-radius: 16px;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-            padding: 25px;
-            max-width: 95%;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
             text-align: center;
         }
 
         .game-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: #2c3e50;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .controls {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 15px;
             padding: 15px;
             background: #f8f9fa;
             border-radius: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
+            margin-bottom: 15px;
         }
 
         .difficulty-selector {
             display: flex;
-            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
         }
 
         .difficulty-btn {
@@ -76,6 +85,8 @@
             font-weight: bold;
             transition: all 0.3s ease;
             background: #e3f2fd;
+            min-width: 70px;
+            font-size: 0.9rem;
         }
 
         .difficulty-btn.active {
@@ -83,32 +94,34 @@
             color: white;
         }
 
+        .game-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
         .new-game-btn {
             background: #4CAF50;
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 12px 15px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: bold;
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .new-game-btn:hover {
-            background: #45a049;
-            transform: translateY(-3px);
+            flex: 1;
         }
 
         .stats {
             display: flex;
-            gap: 20px;
+            justify-content: space-around;
             background: #2c3e50;
             color: white;
-            padding: 12px 20px;
+            padding: 10px 15px;
             border-radius: 10px;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .stat-box {
@@ -119,7 +132,7 @@
 
         .stat-value {
             font-weight: bold;
-            color: #FFD700; /* 金色 */
+            color: #FFD700;
         }
 
         .board {
@@ -130,11 +143,15 @@
             border-radius: 8px;
             margin: 0 auto;
             justify-content: center;
+            overflow: auto;
+            max-width: 100%;
         }
 
         .cell {
             width: var(--cell-size);
             height: var(--cell-size);
+            min-width: var(--cell-size);
+            min-height: var(--cell-size);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -147,10 +164,6 @@
                 transform 0.1s ease, 
                 background-color 0.3s ease,
                 border 0.2s ease;
-        }
-
-        .cell:hover {
-            background-color: #90a4ae;
         }
 
         .cell.revealed {
@@ -180,10 +193,11 @@
         .cell[data-number="8"] { color: var(--number-8); }
 
         .status {
-            margin-top: 20px;
-            font-size: 1.5rem;
+            margin-top: 15px;
+            font-size: 1.3rem;
             font-weight: bold;
             min-height: 30px;
+            padding: 10px;
         }
 
         .win { color: #4CAF50; animation: pulse 1s infinite; }
@@ -195,11 +209,124 @@
             100% { transform: scale(1); }
         }
 
+        /* 触摸反馈 */
+        .cell:active {
+            transform: scale(0.9);
+        }
+
         /* 响应式调整 */
         @media (max-width: 768px) {
-            :root { --cell-size: 30px; }
-            .controls { flex-direction: column; }
-            .difficulty-selector { flex-wrap: wrap; justify-content: center; }
+            :root { 
+                --cell-size: 30px; 
+            }
+            
+            .game-title {
+                font-size: 1.8rem;
+            }
+            
+            .difficulty-btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .new-game-btn {
+                padding: 10px;
+                font-size: 0.95rem;
+            }
+            
+            .stats {
+                font-size: 0.9rem;
+            }
+            
+            .status {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root { 
+                --cell-size: 28px; 
+            }
+            
+            .game-container {
+                padding: 15px;
+            }
+            
+            .game-title {
+                font-size: 1.6rem;
+            }
+            
+            .controls {
+                padding: 10px;
+            }
+            
+            .difficulty-btn {
+                padding: 7px 10px;
+                font-size: 0.8rem;
+                min-width: 60px;
+            }
+            
+            .new-game-btn {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+            
+            .stats {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+            }
+            
+            .cell {
+                font-size: 1.1rem;
+            }
+            
+            .status {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            :root { 
+                --cell-size: 25px; 
+            }
+            
+            .difficulty-btn {
+                padding: 6px 8px;
+                font-size: 0.75rem;
+                min-width: 55px;
+            }
+            
+            .cell {
+                font-size: 1rem;
+            }
+        }
+        
+        /* 横屏优化 */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .game-container {
+                max-width: 95vw;
+                padding: 10px;
+            }
+            
+            .controls {
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            .difficulty-selector {
+                flex-direction: column;
+                max-width: 120px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 5px;
+                max-width: 120px;
+            }
+            
+            .board {
+                max-height: 65vh;
+            }
         }
     </style>
 </head>
@@ -214,10 +341,12 @@
                 <button class="difficulty-btn" data-level="3">专家</button>
                 <button class="difficulty-btn" data-level="4">大师</button>
             </div>
-            <button class="new-game-btn">🔄 新游戏</button>
-            <div class="stats">
-                <div class="stat-box">⏱️ 时间: <span id="timer" class="stat-value">0</span></div>
-                <div class="stat-box">🚩 剩余: <span id="mines-count" class="stat-value">10</span></div>
+            <div class="game-actions">
+                <button class="new-game-btn">🔄 新游戏</button>
+                <div class="stats">
+                    <div class="stat-box">⏱️ <span id="timer" class="stat-value">0</span></div>
+                    <div class="stat-box">🚩 <span id="mines-count" class="stat-value">10</span></div>
+                </div>
             </div>
         </div>
         <div id="board" class="board"></div>
@@ -294,11 +423,24 @@
                     cell.dataset.row = row;
                     cell.dataset.col = col;
                     
-                    // 添加点击事件（事件委托优化）
+                    // 添加触摸事件
                     cell.addEventListener('click', () => handleCellClick(row, col));
                     cell.addEventListener('contextmenu', (e) => {
                         e.preventDefault();
                         handleRightClick(row, col);
+                    });
+                    
+                    // 添加长按事件（用于标记旗帜）
+                    let longPressTimer;
+                    cell.addEventListener('touchstart', (e) => {
+                        longPressTimer = setTimeout(() => {
+                            handleRightClick(row, col);
+                            e.preventDefault();
+                        }, 500); // 500ms长按触发
+                    });
+                    
+                    cell.addEventListener('touchend', () => {
+                        clearTimeout(longPressTimer);
                     });
                     
                     elements.board.appendChild(cell);
