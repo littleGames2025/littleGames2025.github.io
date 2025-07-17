@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>多功能导航页面</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,6 +11,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
@@ -21,6 +22,7 @@
             align-items: center;
             padding: 20px;
             color: #fff;
+            touch-action: manipulation;
         }
         
         .container {
@@ -30,12 +32,13 @@
         }
         
         header {
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             animation: fadeInDown 1s ease;
+            padding: 0 15px;
         }
         
         h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 8vw, 3.5rem);
             margin-bottom: 15px;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
             background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a1c4fd);
@@ -43,20 +46,22 @@
             background-clip: text;
             color: transparent;
             font-weight: 700;
+            line-height: 1.2;
         }
         
         .subtitle {
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 4vw, 1.5rem);
             opacity: 0.8;
             max-width: 600px;
             margin: 0 auto;
             line-height: 1.6;
+            padding: 0 10px;
         }
         
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            gap: 25px;
             margin: 0 auto;
             max-width: 900px;
         }
@@ -65,7 +70,7 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 40px 25px;
+            padding: 35px 20px;
             text-decoration: none;
             color: white;
             display: flex;
@@ -77,7 +82,8 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
-            height: 280px;
+            height: auto;
+            min-height: 220px;
         }
         
         .grid-item::before {
@@ -96,36 +102,41 @@
             transition: transform 0.5s ease;
         }
         
+        .grid-item:active {
+            transform: scale(0.98);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
         .grid-item:hover {
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
         
         .grid-item:hover::before {
-            transform: rotate(45deg) scale(1.5);
+            transform: rotate(45deg) scale(1.2);
         }
         
         .grid-item i {
-            font-size: 4.5rem;
-            margin-bottom: 20px;
+            font-size: clamp(3rem, 12vw, 4.5rem);
+            margin-bottom: 15px;
             transition: transform 0.3s ease;
         }
         
         .grid-item:hover i {
-            transform: scale(1.2);
+            transform: scale(1.15);
         }
         
         .grid-item h2 {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
+            font-size: clamp(1.5rem, 6vw, 2.2rem);
+            margin-bottom: 12px;
             font-weight: 600;
         }
         
         .grid-item p {
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 3.5vw, 1.1rem);
             opacity: 0.9;
-            line-height: 1.6;
-            max-width: 90%;
+            line-height: 1.5;
+            max-width: 95%;
         }
         
         .mine {
@@ -137,21 +148,22 @@
         }
         
         .grid-item .icon-container {
-            width: 100px;
-            height: 100px;
+            width: clamp(70px, 20vw, 100px);
+            height: clamp(70px, 20vw, 100px);
             background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         footer {
-            margin-top: 60px;
-            font-size: 1.1rem;
+            margin-top: 50px;
+            font-size: clamp(0.85rem, 3.5vw, 1.1rem);
             opacity: 0.7;
             animation: fadeInUp 1s ease;
+            padding: 0 15px;
         }
         
         .particles {
@@ -174,7 +186,7 @@
         @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -185,7 +197,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -211,17 +223,52 @@
         }
         
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
+            body {
+                padding: 15px;
             }
             
-            .subtitle {
-                font-size: 1.2rem;
+            header {
+                margin-bottom: 30px;
+            }
+            
+            .grid-container {
+                gap: 20px;
+                max-width: 450px;
+            }
+            
+            .grid-item {
+                padding: 25px 15px;
+                border-radius: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
             }
             
             .grid-container {
                 grid-template-columns: 1fr;
-                max-width: 400px;
+                max-width: 350px;
+                gap: 18px;
+            }
+            
+            .grid-item {
+                min-height: 180px;
+            }
+            
+            .subtitle br {
+                display: none;
+            }
+        }
+        
+        @media (max-height: 700px) {
+            header {
+                margin-bottom: 25px;
+            }
+            
+            .grid-container {
+                gap: 15px;
             }
         }
     </style>
@@ -232,7 +279,7 @@
     <div class="container">
         <header>
             <h1>多功能导航中心</h1>
-            <p class="subtitle">选择您需要的功能模块，点击彩色方块即可进入相应页面</p>
+            <p class="subtitle">选择您需要的功能模块<br>点击彩色方块进入相应页面</p>
         </header>
         
         <div class="grid-container">
@@ -262,14 +309,14 @@
         // 创建粒子动画
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 30;
+            const particleCount = 20;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
                 // 随机大小
-                const size = Math.random() * 10 + 5;
+                const size = Math.random() * 8 + 3;
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 
@@ -303,6 +350,16 @@
                 item.style.animationDelay = `${index * 0.2}s`;
             });
         });
+        
+        // 防止双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
 </html>
