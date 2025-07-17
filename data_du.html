@@ -19,8 +19,8 @@
             padding: 0;
             box-sizing: border-box;
             user-select: none;
-            -webkit-tap-highlight-color: transparent; /* 去除移动端点击高亮 */
-            -webkit-touch-callout: none; /* 禁止移动端长按菜单 */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
         }
 
         body {
@@ -33,10 +33,9 @@
             transition: background 1.5s ease;
             background: var(--spring);
             color: var(--text-dark);
-            padding: 10px; /* 添加内边距防止内容溢出 */
+            padding: 10px;
         }
 
-        /* 粒子效果容器 - 移动端减少数量 */
         .particles {
             position: fixed;
             top: 0;
@@ -52,7 +51,6 @@
             opacity: 0.7;
         }
 
-        /* 主游戏容器 - 移动端优化 */
         .game-container {
             width: 95%;
             max-width: 800px;
@@ -64,8 +62,8 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            transform: translateY(0);
-            transition: transform 0.5s ease;
+            max-height: 95vh;
+            overflow-y: auto;
         }
 
         .season-title {
@@ -77,6 +75,7 @@
             color: transparent;
             text-shadow: 0 2px 10px rgba(0,0,0,0.1);
             transition: all 0.8s ease;
+            padding: 0 10px;
         }
 
         .spring { background-image: linear-gradient(to right, #e91e63, #f48fb1); }
@@ -84,10 +83,9 @@
         .autumn { background-image: linear-gradient(to right, #ff9800, #ffcc80); }
         .winter { background-image: linear-gradient(to right, #03a9f4, #81d4fa); }
 
-        /* 游戏控制区域 - 移动端优化 */
         .controls {
             display: flex;
-            flex-direction: column; /* 竖屏改为垂直布局 */
+            flex-direction: column;
             align-items: center;
             gap: 15px;
         }
@@ -100,7 +98,7 @@
         }
 
         .season-btn {
-            width: 44px; /* 满足最小触摸尺寸 */
+            width: 44px;
             height: 44px;
             border-radius: 50%;
             border: 3px solid white;
@@ -129,7 +127,7 @@
         }
 
         .game-btn {
-            padding: 12px 18px; /* 增大触摸区域 */
+            padding: 12px 18px;
             border: none;
             border-radius: 50px;
             background: rgba(255,255,255,0.9);
@@ -139,7 +137,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             font-size: 0.95rem;
-            min-width: 90px; /* 确保按钮有足够宽度 */
+            min-width: 90px;
         }
 
         .game-btn:hover {
@@ -159,6 +157,8 @@
             padding: 12px;
             border-radius: 15px;
             font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         .stat-box {
@@ -172,18 +172,17 @@
             margin-top: 3px;
         }
 
-        /* 数独棋盘 - 移动端优化 */
         .sudoku-board {
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(9, 1fr);
-            gap: 1px; /* 减小间隙 */
+            gap: 1px;
             background-color: var(--text-dark);
-            border: 2px solid var(--text-dark); /* 减薄边框 */
+            border: 2px solid var(--text-dark);
             border-radius: 6px;
             overflow: hidden;
-            width: 100%; /* 确保棋盘宽度自适应 */
-            max-width: 95vw; /* 防止在窄屏幕上溢出 */
+            width: 100%;
+            max-width: 95vw;
         }
 
         .cell {
@@ -192,7 +191,7 @@
             align-items: center;
             justify-content: center;
             background-color: white;
-            font-size: 1.5rem; /* 减小字体大小 */
+            font-size: 1.5rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -231,19 +230,19 @@
         }
 
         .border-right {
-            border-right: 2px solid var(--text-dark) !important; /* 减薄边框 */
+            border-right: 2px solid var(--text-dark) !important;
         }
 
         .border-bottom {
             border-bottom: 2px solid var(--text-dark) !important;
         }
 
-        /* 数字选择面板 - 移动端优化 */
         .number-pad {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 6px; /* 减小间隙 */
+            gap: 6px;
             margin-top: 12px;
+            width: 100%;
         }
 
         .num-btn {
@@ -253,12 +252,13 @@
             justify-content: center;
             background: rgba(255,255,255,0.9);
             border-radius: 10px;
-            font-size: 1.6rem; /* 减小字体大小 */
+            font-size: 1.6rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            min-height: 44px; /* 满足最小触摸尺寸 */
+            min-height: 44px;
+            min-width: 44px;
         }
 
         .num-btn:hover {
@@ -266,7 +266,6 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.15);
         }
 
-        /* 动画效果 */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-8px); }
@@ -283,12 +282,12 @@
             to { transform: translateY(100vh); }
         }
 
-        /* 成就徽章 */
         .achievements {
             display: flex;
             justify-content: center;
             gap: 12px;
             margin-top: 8px;
+            flex-wrap: wrap;
         }
 
         .badge {
@@ -311,14 +310,13 @@
             box-shadow: 0 0 10px gold;
         }
 
-        /* 响应式设计 - 增强移动端适配 */
         @media (max-width: 768px) {
             .season-title { font-size: 2.2rem; }
             .game-container { padding: 15px; gap: 12px; }
             .stat-box { font-size: 0.85rem; }
             .stat-value { font-size: 1.1rem; }
             .cell { font-size: 1.3rem; }
-            .num-btn { font-size: 1.4rem; min-height: 40px; }
+            .num-btn { font-size: 1.4rem; min-height: 40px; min-width: 40px; }
             .game-btn { padding: 10px 15px; font-size: 0.9rem; min-width: 80px; }
         }
 
@@ -328,35 +326,37 @@
             .stats { padding: 8px; font-size: 0.8rem; }
             .stat-value { font-size: 1rem; }
             .cell { font-size: 1.1rem; }
-            .num-btn { font-size: 1.2rem; min-height: 36px; }
+            .num-btn { 
+                font-size: 1.2rem; 
+                min-height: 36px; 
+                min-width: 36px;
+            }
             .game-btn { padding: 8px 12px; font-size: 0.85rem; min-width: 70px; }
             .season-btn { width: 40px; height: 40px; }
             .badge { width: 32px; height: 32px; font-size: 0.9rem; }
             
-            /* 竖屏时调整控制区域布局 */
             .controls {
                 flex-direction: column;
                 gap: 10px;
             }
             
             .season-selector {
-                order: 2; /* 将季节选择器放到按钮下方 */
+                order: 2;
             }
             
             .game-actions {
                 order: 1;
-            }
-            
-            /* 减少粒子数量 */
-            .particle {
-                font-size: 14px !important;
             }
         }
 
         @media (max-width: 360px) {
             .season-title { font-size: 1.6rem; }
             .cell { font-size: 1rem; }
-            .num-btn { font-size: 1.1rem; }
+            .num-btn { 
+                font-size: 1.1rem; 
+                min-height: 32px; 
+                min-width: 32px;
+            }
             .game-btn { min-width: 65px; padding: 7px 10px; }
             .season-btn { width: 36px; height: 36px; }
         }
@@ -406,7 +406,6 @@
     </style>
 </head>
 <body>
-    <!-- 粒子效果容器 -->
     <div class="particles" id="particles"></div>
     
     <div class="game-container">
@@ -455,7 +454,6 @@
     </div>
 
     <script>
-        // 游戏状态管理
         const gameState = {
             currentSeason: 'spring',
             difficultyLevel: 'medium',
@@ -477,7 +475,6 @@
             }
         };
 
-        // DOM元素引用
         const elements = {
             seasonTitle: document.getElementById('seasonTitle'),
             sudokuBoard: document.getElementById('sudokuBoard'),
@@ -492,13 +489,12 @@
             achievements: document.getElementById('achievements')
         };
 
-        // 季节配置
         const seasonsConfig = {
             spring: {
                 title: '春日数独',
                 class: 'spring',
                 bg: 'var(--spring)',
-                particles: { shape: '🌸', color: '#ff9a9e', amount: 8 } // 减少粒子数量
+                particles: { shape: '🌸', color: '#ff9a9e', amount: 8 }
             },
             summer: {
                 title: '夏日数独',
@@ -520,29 +516,21 @@
             }
         };
 
-        // 初始化游戏
         function initGame() {
             generateNewBoard();
             createBoardUI();
             setupNumberPad();
             updateTimer();
             updateAchievementsUI();
-            
-            // 启动计时器
             startTimer();
-            
-            // 设置季节特效
             changeSeason(gameState.currentSeason);
         }
 
-        // 生成新的数独棋盘
         function generateNewBoard() {
-            // 实际项目中使用DFS回溯算法生成
-            // 此处为示例数据
             const exampleBoard = [
                 [5, 3, 0, 0, 7, 0, 0, 0, 0],
                 [6, 0, 0, 1, 9, 5, 0, 0, 0],
-                [0, 9, 8, 0, 0, 0, 0, 6, 0],
+                [0, 9, 8, 极, 0, 0, 0, 6, 0],
                 [8, 0, 0, 0, 6, 0, 0, 0, 3],
                 [4, 0, 0, 8, 0, 3, 0, 0, 1],
                 [7, 0, 0, 0, 2, 0, 0, 0, 6],
@@ -575,7 +563,6 @@
             elements.mistakes.textContent = '0';
         }
 
-        // 创建棋盘UI
         function createBoardUI() {
             elements.sudokuBoard.innerHTML = '';
             
@@ -587,22 +574,17 @@
                     cell.dataset.row = row;
                     cell.dataset.col = col;
                     
-                    // 添加区块边框
                     if (col % 3 === 2 && col < 8) cell.classList.add('border-right');
                     if (row % 3 === 2 && row < 8) cell.classList.add('border-bottom');
                     
-                    // 预填充单元格
                     if (cellValue !== 0) {
                         cell.textContent = cellValue;
                         cell.classList.add('prefilled');
                     }
                     
-                    // 事件监听
                     cell.addEventListener('click', () => selectCell(row, col));
-                    
-                    // 添加触摸事件支持
                     cell.addEventListener('touchstart', (e) => {
-                        e.preventDefault(); // 防止触摸时页面滚动
+                        e.preventDefault();
                         selectCell(row, col);
                     });
                     
@@ -611,69 +593,53 @@
             }
         }
 
-        // 设置数字选择面板
         function setupNumberPad() {
             elements.numberPad.innerHTML = '';
             
-            // 添加数字按钮 1-9
             for (let i = 1; i <= 9; i++) {
                 const numBtn = document.createElement('div');
                 numBtn.className = 'num-btn';
                 numBtn.textContent = i;
                 numBtn.dataset.value = i;
                 numBtn.addEventListener('click', () => fillCell(i));
-                
-                // 添加触摸事件支持
                 numBtn.addEventListener('touchstart', (e) => {
                     e.preventDefault();
                     fillCell(i);
                 });
-                
                 elements.numberPad.appendChild(numBtn);
             }
             
-            // 添加删除按钮
             const deleteBtn = document.createElement('div');
             deleteBtn.className = 'num-btn';
             deleteBtn.textContent = '⌫';
             deleteBtn.style.fontSize = '1.4rem';
             deleteBtn.addEventListener('click', () => fillCell(0));
-            
-            // 添加触摸事件支持
             deleteBtn.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 fillCell(0);
             });
-            
             elements.numberPad.appendChild(deleteBtn);
         }
 
-        // 选择单元格
         function selectCell(row, col) {
-            // 清除之前的选择
             document.querySelectorAll('.cell.selected, .cell.highlighted, .cell.related').forEach(cell => {
                 cell.classList.remove('selected', 'highlighted', 'related');
             });
             
-            // 跳过预填充单元格
             if (gameState.board[row][col] !== 0) return;
             
-            // 设置新选择的单元格
             const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
             cell.classList.add('selected');
             gameState.selectedCell = { row, col };
             
-            // 高亮相同数字
             const selectedValue = gameState.userBoard[row][col];
             if (selectedValue !== 0) {
                 highlightNumber(selectedValue);
             }
             
-            // 高亮相关单元格（行、列、宫）
             highlightRelatedCells(row, col);
         }
 
-        // 高亮相同数字
         function highlightNumber(number) {
             for (let row = 0; row < 9; row++) {
                 for (let col = 0; col < 9; col++) {
@@ -685,9 +651,7 @@
             }
         }
 
-        // 高亮相关单元格
         function highlightRelatedCells(row, col) {
-            // 高亮整行
             for (let c = 0; c < 9; c++) {
                 if (c !== col) {
                     const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${c}"]`);
@@ -695,7 +659,6 @@
                 }
             }
             
-            // 高亮整列
             for (let r = 0; r < 9; r++) {
                 if (r !== row) {
                     const cell = document.querySelector(`.cell[data-row="${r}"][data-col="${col}"]`);
@@ -703,7 +666,6 @@
                 }
             }
             
-            // 高亮所在宫格
             const boxRowStart = Math.floor(row / 3) * 3;
             const boxColStart = Math.floor(col / 3) * 3;
             
@@ -717,28 +679,22 @@
             }
         }
 
-        // 填写单元格
         function fillCell(value) {
             if (!gameState.selectedCell) return;
             
             const { row, col } = gameState.selectedCell;
             
-            // 跳过预填充单元格
             if (gameState.board[row][col] !== 0) return;
             
-            // 更新游戏状态
             gameState.userBoard[row][col] = value;
             
-            // 更新UI
             const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
             cell.textContent = value === 0 ? '' : value;
             cell.classList.remove('error');
             
-            // 添加用户输入样式
             if (value !== 0) {
                 cell.classList.add('user-input');
                 
-                // 验证输入是否正确
                 if (value !== gameState.solution[row][col]) {
                     cell.classList.add('error');
                     gameState.mistakes++;
@@ -748,7 +704,6 @@
                 cell.classList.remove('user-input');
             }
             
-            // 高亮相同数字
             document.querySelectorAll('.cell.highlighted').forEach(cell => {
                 cell.classList.remove('highlighted');
             });
@@ -757,11 +712,9 @@
                 highlightNumber(value);
             }
             
-            // 检查游戏是否完成
             checkGameCompletion();
         }
 
-        // 检查游戏完成状态
         function checkGameCompletion() {
             for (let row = 0; row < 9; row++) {
                 for (let col = 0; col < 9; col++) {
@@ -770,11 +723,9 @@
                 }
             }
             
-            // 游戏胜利
             clearInterval(gameState.timerInterval);
             alert('恭喜！你成功完成了数独挑战！');
             
-            // 解锁成就
             gameState.achievements[gameState.currentSeason] = true;
             if (gameState.mistakes === 0 && gameState.hintsUsed === 0) {
                 gameState.achievements.perfect = true;
@@ -784,7 +735,6 @@
             return true;
         }
 
-        // 更新成就显示
         function updateAchievementsUI() {
             document.querySelectorAll('.badge').forEach(badge => {
                 const badgeType = badge.dataset.badge;
@@ -796,7 +746,6 @@
             });
         }
 
-        // 启动计时器
         function startTimer() {
             if (gameState.timerInterval) {
                 clearInterval(gameState.timerInterval);
@@ -806,7 +755,6 @@
             gameState.timerInterval = setInterval(updateTimer, 1000);
         }
 
-        // 更新计时器显示
         function updateTimer() {
             if (!gameState.startTime) return;
             
@@ -816,32 +764,24 @@
             elements.timer.textContent = `${minutes}:${seconds}`;
         }
 
-        // 更改季节主题
         function changeSeason(season) {
             gameState.currentSeason = season;
             const config = seasonsConfig[season];
             
-            // 更新标题
             elements.seasonTitle.textContent = config.title;
             elements.seasonTitle.className = `season-title ${config.class}`;
-            
-            // 更新背景
             document.body.style.background = config.bg;
             
-            // 更新活动按钮
             document.querySelectorAll('.season-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.season === season);
             });
             
-            // 创建粒子特效
             createParticles(config.particles);
         }
 
-        // 创建粒子特效 - 移动端优化
         function createParticles(particleConfig) {
             elements.particles.innerHTML = '';
             
-            // 根据屏幕尺寸调整粒子数量
             const isMobile = window.innerWidth <= 768;
             const amount = isMobile ? Math.floor(particleConfig.amount * 0.6) : particleConfig.amount;
             
@@ -851,46 +791,34 @@
                 particle.textContent = particleConfig.shape;
                 particle.style.color = particleConfig.color;
                 
-                // 根据设备调整粒子大小
                 const baseSize = isMobile ? 12 : 16;
                 particle.style.fontSize = `${Math.random() * baseSize + baseSize}px`;
                 particle.style.left = `${Math.random() * 100}%`;
                 
-                // 随机动画延迟和持续时间
                 const animationDelay = Math.random() * 10;
                 const animationDuration = Math.random() * 20 + 20;
                 
-                // 特殊效果
                 if (gameState.currentSeason === 'spring' || gameState.currentSeason === 'autumn') {
                     particle.style.animation = `float ${animationDuration}s ease-in-out ${animationDelay}s infinite`;
                 } else {
                     particle.style.animation = `fall ${animationDuration}s linear ${animationDelay}s infinite`;
                 }
                 
-                // 初始透明度
                 particle.style.opacity = `${Math.random() * 0.5 + 0.3}`;
                 
                 elements.particles.appendChild(particle);
             }
         }
 
-        // 提示功能
         function provideHint() {
             if (!gameState.selectedCell) return;
             
             const { row, col } = gameState.selectedCell;
-            
-            // 获取正确数字
             const correctNum = gameState.solution[row][col];
-            
-            // 填写到单元格
             fillCell(correctNum);
-            
-            // 更新提示计数
             gameState.hintsUsed++;
         }
 
-        // 检查游戏错误
         function checkForErrors() {
             let hasErrors = false;
             
@@ -899,7 +827,6 @@
                     const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
                     cell.classList.remove('error');
                     
-                    // 仅检查用户填写的单元格
                     if (gameState.board[row][col] === 0 && 
                         gameState.userBoard[row][col] !== gameState.solution[row][col]) {
                         cell.classList.add('error');
@@ -913,10 +840,8 @@
             }
         }
 
-        // 事件监听绑定
         window.addEventListener('load', initGame);
         window.addEventListener('resize', () => {
-            // 在窗口大小变化时重新生成粒子，以适应新尺寸
             changeSeason(gameState.currentSeason);
         });
         
@@ -928,7 +853,6 @@
         elements.checkBtn.addEventListener('click', checkForErrors);
         elements.hintBtn.addEventListener('click', provideHint);
         
-        // 季节切换事件
         document.querySelectorAll('.season-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 changeSeason(btn.dataset.season);
